@@ -1,0 +1,49 @@
+import IntroScreen from "@/screens/IntroScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import TabNavigator from "./TabNavigator";
+import { useEffect, useState } from "react";
+import { USERNAME } from "@/constants/storage-constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNameStore } from "@/stores/nameStore";
+
+const Stack = createStackNavigator();
+
+export default function RootNavigator() {
+  const setUserName = useNameStore((state) => state.setName);
+  const [isLoading, setIsLoading] = useState(true);
+  const [initialRoute, setInitialRoute] = useState<"Tabs" | "Home">("Home");
+
+  useEffect(() => {
+    const checkName = async () => {
+      try {
+        const value = await AsyncStorage.getItem(USERNAME);
+        if (value) {
+          setUserName(value);
+          setInitialRoute("Tabs");
+        }
+      } catch (error) {
+        setInitialRoute("Home");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkName();
+  }, []);
+
+  if (isLoading) {
+    return null;
+  }
+
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName={initialRoute}
+    >
+      <Stack.Screen name="Home" component={IntroScreen} />
+      <Stack.Screen name="Tabs" component={TabNavigator} />
+    </Stack.Navigator>
+  );
+}
