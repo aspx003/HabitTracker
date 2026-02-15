@@ -10,16 +10,13 @@ import migrations from "@/drizzle/migrations";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Navigation
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import RootNavigator from "./navigators/RootNavigator";
 
 // Theming
 import { ThemeProvider } from "@shopify/restyle";
 import { lightTheme, darkTheme } from "./theme";
 import { useColorScheme } from "react-native";
-import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { USERNAME } from "./constants/storage-constants";
 
 // Database setup
 const expo = SQLite.openDatabaseSync("user.db");
@@ -40,7 +37,7 @@ export default function App() {
         <ThemeProvider theme={darkTheme}>
           <RootNavigator />
         </ThemeProvider>
-        <StatusBar style="auto" />
+        <StatusBar style={colorScheme === "dark" ? "dark" : "light"} />
       </QueryClientProvider>
     </NavigationContainer>
   );

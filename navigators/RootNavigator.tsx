@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { USERNAME } from "@/constants/storage-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNameStore } from "@/stores/nameStore";
+import ThemedLoadingScreen from "@/components/themed-loading-screen";
 
 const Stack = createStackNavigator();
 
@@ -13,6 +14,7 @@ export default function RootNavigator() {
   const [isLoading, setIsLoading] = useState(true);
   const [initialRoute, setInitialRoute] = useState<"Tabs" | "Home">("Home");
 
+  // Checking if first time user or not
   useEffect(() => {
     const checkName = async () => {
       try {
@@ -31,8 +33,9 @@ export default function RootNavigator() {
     checkName();
   }, []);
 
+  // TODO: Add a loading screen
   if (isLoading) {
-    return null;
+    return <ThemedLoadingScreen />;
   }
 
   return (

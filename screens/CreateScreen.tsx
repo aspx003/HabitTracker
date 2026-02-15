@@ -1,23 +1,5 @@
-import { StyleSheet } from "react-native";
-import ThemedSafeAreaView from "@/components/themed-safe-area-view";
-import ThemedText from "@/components/themed-text";
-import { useNameStore } from "@/stores/nameStore";
+import Box from "@/components/box";
 
 export default function CreateScreen() {
-  const name = useNameStore((state) => state.name);
-
-  return (
-    <ThemedSafeAreaView style={styles.container}>
-      <ThemedText variant={"subheader"}>Good Morning</ThemedText>
-      <ThemedText variant={"header"}>{name}</ThemedText>
-    </ThemedSafeAreaView>
-  );
+  return <Box backgroundColor={"mainBackground"} flex={1}></Box>;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    gap: 6,
-  },
-});
