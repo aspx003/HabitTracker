@@ -27,10 +27,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <QueryClientProvider client={client}>
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={colorScheme === "dark" ? darkTheme : lightTheme}>
           <RootNavigator />
         </ThemeProvider>
-        <StatusBar style={colorScheme === "dark" ? "dark" : "light"} />
+        <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       </QueryClientProvider>
     </NavigationContainer>
   );
