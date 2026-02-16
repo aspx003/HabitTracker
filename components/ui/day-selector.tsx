@@ -1,4 +1,5 @@
-import { Colors } from "@/constants/theme";
+import { Theme } from "@/theme";
+import { useTheme } from "@shopify/restyle";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -14,6 +15,7 @@ export default function DaySelector({
   onSelectedDaysChange,
   initialSelectedDays = new Set([]),
 }: DaySelectorProps) {
+  const theme = useTheme<Theme>();
   const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
   const [selectedDays, setSelectedDays] = useState<Days>(initialSelectedDays);
 
@@ -39,7 +41,7 @@ export default function DaySelector({
           style={[
             styles.dayContainer,
             selectedDays.has(day as Day) && {
-              backgroundColor: Colors.light.tint,
+              backgroundColor: theme.colors.primary,
             },
           ]}
           key={day}
@@ -66,7 +68,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: Colors.light.tint,
     padding: 10,
     paddingHorizontal: 3,
     gap: 2,

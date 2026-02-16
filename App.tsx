@@ -1,10 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 
-// Database
-import * as SQLite from "expo-sqlite";
-import { drizzle } from "drizzle-orm/expo-sqlite";
+// Database init
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "@/drizzle/migrations";
+import { db } from "@/db/db";
 
 // Query client
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,10 +16,6 @@ import RootNavigator from "./navigators/RootNavigator";
 import { ThemeProvider } from "@shopify/restyle";
 import { lightTheme, darkTheme } from "./theme";
 import { useColorScheme } from "react-native";
-
-// Database setup
-const expo = SQLite.openDatabaseSync("user.db");
-export const db = drizzle(expo);
 
 // Query Client setup
 const client = new QueryClient();

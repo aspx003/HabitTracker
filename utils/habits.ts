@@ -1,4 +1,4 @@
-import { db } from "@/app/_layout";
+import { db } from "@/db/db";
 import { categories, habitCompletions, habits } from "@/db/schema";
 import { getDay } from "date-fns";
 import { eq, or, sql } from "drizzle-orm";
@@ -17,7 +17,6 @@ export const createHabit = async (
       daysOfWeek: isDaily === 1 ? null : daysOfWeek,
       categoryId,
       isDaily,
-      createdAt: new Date(),
     });
   } catch (error) {
     console.log(error);
@@ -35,7 +34,6 @@ export const getTodayHabits = async () => {
         isDaily: habits.isDaily,
         description: habits.description,
         category: categories.name,
-        color: categories.color,
         isCompletedToday: habitCompletions.completed,
       })
       .from(habits)

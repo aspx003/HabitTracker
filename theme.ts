@@ -97,6 +97,10 @@ export const lightTheme = createTheme({
       fontSize: 16,
       color: "textPrimary",
     },
+    error: {
+      fontSize: 16,
+      color: "alert",
+    },
   },
 });
 
@@ -167,6 +171,10 @@ export const darkTheme = createTheme({
     defaults: {
       fontSize: 16,
       color: "textPrimary",
+    },
+    error: {
+      fontSize: 16,
+      color: "alert",
     },
   },
 });

@@ -1,8 +1,9 @@
 import { completeHabit } from "@/utils/habits";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 import { Pressable, StyleSheet } from "react-native";
-import { ThemedText } from "../themed-text";
+import ThemedText from "../themed-text";
+import { useTheme } from "@shopify/restyle";
+import { Theme } from "@/theme";
 
 type HabitDisplayProps = {
   habit: {
@@ -11,13 +12,13 @@ type HabitDisplayProps = {
     isDaily: number;
     description: string | null;
     category: string | null;
-    color: string | null;
     isCompletedToday: number | null;
   };
 };
 
 export default function HabitDisplay({ habit }: HabitDisplayProps) {
   const client = useQueryClient();
+  const theme = useTheme<Theme>();
 
   const { mutate } = useMutation({
     mutationFn: ({ id }: { id: number }) => completeHabit(id),
@@ -40,14 +41,16 @@ export default function HabitDisplay({ habit }: HabitDisplayProps) {
     <Pressable
       style={[
         styles.container,
-        { borderColor: habit.isCompletedToday ? "green" : "gray" },
+        {
+          borderColor: habit.isCompletedToday
+            ? theme.colors.secondary
+            : theme.colors.border,
+        },
       ]}
       onPress={onPress}
     >
-      <ThemedText style={[styles.habitText, { color: habit.color! }]}>
-        {habit.name}
-      </ThemedText>
-      <ThemedText type="default">{habit.description}</ThemedText>
+      <ThemedText variant="subheader">{habit.name}</ThemedText>
+      <ThemedText variant="caption">{habit.description}</ThemedText>
     </Pressable>
   );
 }

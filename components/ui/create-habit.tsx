@@ -1,14 +1,21 @@
-import DaySelector from "@/components/day-selector";
 import ThemedButton from "@/components/themed-button";
-import { ThemedText } from "@/components/themed-text";
+import DaySelector from "@/components/ui/day-selector";
+import { Theme } from "@/theme";
 import { getCatgeories } from "@/utils/categories";
 import { createHabit } from "@/utils/habits";
+import { color, useTheme } from "@shopify/restyle";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SetStateAction, useState } from "react";
-import { StyleSheet, Switch, TextInput, View } from "react-native";
+import { StyleSheet, Switch, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
+import Box from "../box";
+import ThemedInput from "../themed-input";
+import ThemedText from "../themed-text";
+import Feather from "@expo/vector-icons/Feather";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function CreateHabit() {
+  const theme = useTheme<Theme>();
   const queryClient = useQueryClient();
 
   // For habits
@@ -80,32 +87,54 @@ export default function CreateHabit() {
   };
 
   return (
-    <View>
-      <TextInput
+    <Box gap={"s"}>
+      <ThemedText variant={"subheader"}>Add Habit</ThemedText>
+      <ThemedInput
         value={habitName}
         onChangeText={setHabitname}
         placeholder="Habit name"
-        style={styles.textInput}
-        placeholderTextColor={"white"}
       />
-      <TextInput
+      <ThemedInput
         value={description}
         onChangeText={setDescription}
         placeholder="Habit Description"
-        style={styles.textInput}
-        placeholderTextColor={"white"}
       />
       <View style={styles.switch}>
         <ThemedText>Is this habit daily / on some days?</ThemedText>
-        <Switch value={isDaily} onValueChange={() => setIsDaily(!isDaily)} />
+        <Switch
+          thumbColor={theme.colors.primary}
+          value={isDaily}
+          onValueChange={() => setIsDaily(!isDaily)}
+        />
       </View>
       {!isDaily && <DaySelector onSelectedDaysChange={handleDaysChange} />}
       <ThemedText>Select Category</ThemedText>
       <SelectList
-        boxStyles={{ marginVertical: 10 }}
-        dropdownTextStyles={styles.boxStyles}
-        dropdownStyles={{ marginBottom: 10 }}
-        inputStyles={styles.boxStyles}
+        searchicon={
+          <Feather name="search" size={18} color={theme.colors.textPrimary} />
+        }
+        closeicon={
+          <AntDesign name="close" size={18} color={theme.colors.textPrimary} />
+        }
+        placeholder="Select Category"
+        boxStyles={{
+          marginVertical: 10,
+          backgroundColor: theme.colors.surface,
+          borderColor: theme.colors.border,
+        }}
+        dropdownTextStyles={{
+          color: theme.colors.textPrimary,
+        }}
+        dropdownStyles={{
+          marginVertical: 10,
+          backgroundColor: theme.colors.surface,
+          borderColor: theme.colors.border,
+        }}
+        inputStyles={{
+          marginLeft: 10,
+          color: theme.colors.textPrimary,
+        }}
+        searchPlaceholder="Search category"
         setSelected={(val: SetStateAction<number | undefined>) =>
           setCategoryId(val)
         }
@@ -115,9 +144,9 @@ export default function CreateHabit() {
       {/* Only open when daily not selected */}
       <ThemedButton label="Create new habit" onPress={onPressCreateHabit} />
       {categoriesError && (
-        <ThemedText type="error">{categoriesError.message}</ThemedText>
+        <ThemedText variant={"error"}>{categoriesError.message}</ThemedText>
       )}
-    </View>
+    </Box>
   );
 }
 
