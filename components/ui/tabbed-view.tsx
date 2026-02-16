@@ -37,8 +37,8 @@ export function Tab({ index, setIndex, data }: TabProps) {
               borderRadius={15}
             >
               <ThemedText
-                color={i === index ? "textPrimary" : "textSecondary"}
-                variant={"subheader"}
+                color={i === index ? "selectedTab" : "textSecondary"}
+                variant={"button"}
               >
                 {tab.name}
               </ThemedText>
