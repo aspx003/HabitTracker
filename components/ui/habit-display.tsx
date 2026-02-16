@@ -1,9 +1,10 @@
+import { Theme } from "@/theme";
 import { completeHabit } from "@/utils/habits";
+import { useTheme } from "@shopify/restyle";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pressable, StyleSheet } from "react-native";
 import ThemedText from "../themed-text";
-import { useTheme } from "@shopify/restyle";
-import { Theme } from "@/theme";
+import { HABIT_KEY } from "@/constants/storage-constants";
 
 type HabitDisplayProps = {
   habit: {
@@ -24,7 +25,7 @@ export default function HabitDisplay({ habit }: HabitDisplayProps) {
     mutationFn: ({ id }: { id: number }) => completeHabit(id),
     onSuccess: () => {
       client.invalidateQueries({
-        queryKey: ["habits"],
+        queryKey: [HABIT_KEY],
       });
     },
   });

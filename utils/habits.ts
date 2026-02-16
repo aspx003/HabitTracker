@@ -3,6 +3,15 @@ import { categories, habitCompletions, habits } from "@/db/schema";
 import { getDay } from "date-fns";
 import { eq, or, sql } from "drizzle-orm";
 
+export const getAllHabits = async () => {
+  try {
+    const data = await db.select().from(habits);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const createHabit = async (
   name: string,
   categoryId: number,

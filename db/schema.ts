@@ -14,7 +14,9 @@ export const habits = sqliteTable("habits", {
   description: text("description"),
   isDaily: integer("is_daily").notNull().default(1),
   daysOfWeek: text("days_of_week"),
-  categoryId: integer("category_id").references(() => categories.id),
+  categoryId: integer("category_id").references(() => categories.id, {
+    onDelete: "cascade",
+  }),
 });
 
 export type Habit = typeof habits.$inferSelect;
@@ -23,7 +25,9 @@ export const habitCompletions = sqliteTable("habit_completions", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   habitId: integer("habit_id")
     .notNull()
-    .references(() => habits.id),
+    .references(() => habits.id, {
+      onDelete: "cascade",
+    }),
   completed: integer("completed").notNull().default(0), // 0/1
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });

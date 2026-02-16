@@ -5,6 +5,7 @@ import { useState } from "react";
 import Box from "../box";
 import ThemedInput from "../themed-input";
 import ThemedText from "../themed-text";
+import { CATEGORY_KEY } from "@/constants/storage-constants";
 
 export default function CreateCategory() {
   const queryClient = useQueryClient();
@@ -15,7 +16,7 @@ export default function CreateCategory() {
     onSuccess: () => {
       setCategoryName("");
       queryClient.invalidateQueries({
-        queryKey: ["category"],
+        queryKey: [CATEGORY_KEY],
       });
     },
   });

@@ -3,7 +3,7 @@ import DaySelector from "@/components/ui/day-selector";
 import { Theme } from "@/theme";
 import { getCatgeories } from "@/utils/categories";
 import { createHabit } from "@/utils/habits";
-import { color, useTheme } from "@shopify/restyle";
+import { useTheme } from "@shopify/restyle";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SetStateAction, useState } from "react";
 import { StyleSheet, Switch, View } from "react-native";
@@ -13,6 +13,7 @@ import ThemedInput from "../themed-input";
 import ThemedText from "../themed-text";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { CATEGORY_KEY, HABIT_KEY } from "@/constants/storage-constants";
 
 export default function CreateHabit() {
   const theme = useTheme<Theme>();
@@ -20,7 +21,7 @@ export default function CreateHabit() {
 
   // For habits
   const { data: categories, error: categoriesError } = useQuery({
-    queryKey: ["category"],
+    queryKey: [CATEGORY_KEY],
     queryFn: getCatgeories,
   });
 
@@ -64,7 +65,7 @@ export default function CreateHabit() {
       setCategoryId(0);
       setSelectedDays(new Set());
       queryClient.invalidateQueries({
-        queryKey: ["habits"],
+        queryKey: [HABIT_KEY],
       });
     },
   });

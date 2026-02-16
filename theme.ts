@@ -55,6 +55,9 @@ export const lightTheme = createTheme({
     success: palette.forestGreen,
     warning: palette.goldenrod,
     alert: palette.crimson,
+
+    //special
+    selectedTab: palette.white,
   },
   spacing: {
     xs: 4,
@@ -130,6 +133,9 @@ export const darkTheme = createTheme({
     success: palette.mintGreen,
     warning: palette.sunsetOrange,
     alert: palette.roseRed,
+
+    //special
+    selectedTab: palette.white,
   },
   spacing: {
     xs: 4,
