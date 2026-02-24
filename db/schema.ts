@@ -1,22 +1,12 @@
 // schema.ts
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export const categories = sqliteTable("categories", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull().unique(),
-});
-
-export type Categories = typeof categories.$inferSelect;
-
 export const habits = sqliteTable("habits", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
   description: text("description"),
   isDaily: integer("is_daily").notNull().default(1),
-  daysOfWeek: text("days_of_week"),
-  categoryId: integer("category_id").references(() => categories.id, {
-    onDelete: "cascade",
-  }),
+  daysOfWeek: text("days_of_week")
 });
 
 export type Habit = typeof habits.$inferSelect;

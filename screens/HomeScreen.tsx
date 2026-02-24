@@ -2,25 +2,24 @@ import Box from "@/components/box";
 import ThemedLoadingScreen from "@/components/themed-loading-screen";
 import ThemedText from "@/components/themed-text";
 import HabitDisplay from "@/components/ui/habit-display";
-import { HABIT_KEY } from "@/constants/storage-constants";
 import { useGreeting } from "@/hooks/useGreeting";
 import { useNameStore } from "@/stores/nameStore";
-import { getTodayHabits } from "@/utils/habits";
 import { FlashList } from "@shopify/flash-list";
-import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "@legendapp/state/react";
+import { Habit, habitStore } from "@/stores/habitStore";
+import { useEffect } from "react";
 
 export default function HomeScreen() {
   const name = useNameStore((state) => state.name);
   const greeting = useGreeting();
 
-  const {
-    data: todayHabits,
-    isLoading,
-    error,
-  } = useQuery({
-    queryFn: getTodayHabits,
-    queryKey: [HABIT_KEY],
-  });
+  useEffect(() => {
+    habitStore.fetchTodayHabits();
+  }, []);
+
+  const todayHabits = useSelector(habitStore.todayHabits);
+  const isLoading = useSelector(habitStore.isLoading);
+  const error = useSelector(habitStore.error);
 
   return (
     <Box backgroundColor={"mainBackground"} flex={1}>
@@ -40,9 +39,9 @@ export default function HomeScreen() {
         </Box>
       )}
       <Box flex={1} marginTop={"m"}>
-        {!isLoading && (
+        {!isLoading && todayHabits && (
           <FlashList
-            data={todayHabits}
+            data={todayHabits as Habit[]}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => <HabitDisplay habit={item} />}
           />

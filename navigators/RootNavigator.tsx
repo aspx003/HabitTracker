@@ -1,13 +1,13 @@
-import IntroScreen from "@/screens/IntroScreen";
-import { createStackNavigator } from "@react-navigation/stack";
-import TabNavigator from "./TabNavigator";
-import { useEffect, useState } from "react";
-import { USERNAME } from "@/constants/storage-constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNameStore } from "@/stores/nameStore";
 import ThemedLoadingScreen from "@/components/themed-loading-screen";
+import { USERNAME } from "@/constants/storage-constants";
+import IntroScreen from "@/screens/IntroScreen";
+import { useNameStore } from "@/stores/nameStore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useEffect, useState } from "react";
+import TabNavigator from "./TabNavigator";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
   const setUserName = useNameStore((state) => state.setName);

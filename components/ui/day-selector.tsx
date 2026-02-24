@@ -2,6 +2,7 @@ import { Theme } from "@/theme";
 import { useTheme } from "@shopify/restyle";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import ThemedText from "../themed-text";
 
 type Day = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
 type Days = Set<Day>;
@@ -47,7 +48,14 @@ export default function DaySelector({
           key={day}
           onPress={() => onPress(day as Day)}
         >
-          <Text style={styles.text}>{day.toLocaleUpperCase()}</Text>
+          <ThemedText
+            variant={"body"}
+            color={
+              selectedDays.has(day as Day) ? "mainBackground" : "textPrimary"
+            }
+          >
+            {day.toLocaleUpperCase()}
+          </ThemedText>
         </Pressable>
       ))}
     </View>
@@ -60,9 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     marginVertical: 10,
-  },
-  text: {
-    color: "white",
   },
   dayContainer: {
     flex: 1,

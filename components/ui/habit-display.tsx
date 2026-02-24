@@ -1,10 +1,8 @@
 import { Theme } from "@/theme";
-import { completeHabit } from "@/utils/habits";
 import { useTheme } from "@shopify/restyle";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pressable, StyleSheet } from "react-native";
 import ThemedText from "../themed-text";
-import { HABIT_KEY } from "@/constants/storage-constants";
+import { habitStore } from "@/stores/habitStore";
 
 type HabitDisplayProps = {
   habit: {
@@ -12,30 +10,16 @@ type HabitDisplayProps = {
     name: string;
     isDaily: number;
     description: string | null;
-    category: string | null;
     isCompletedToday: number | null;
   };
 };
 
 export default function HabitDisplay({ habit }: HabitDisplayProps) {
-  const client = useQueryClient();
   const theme = useTheme<Theme>();
-
-  const { mutate } = useMutation({
-    mutationFn: ({ id }: { id: number }) => completeHabit(id),
-    onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: [HABIT_KEY],
-      });
-    },
-  });
 
   const onPress = () => {
     if (habit.isCompletedToday) return;
-
-    mutate({
-      id: habit.id,
-    });
+    habitStore.storeCompleteHabit(habit.id);
   };
 
   return (

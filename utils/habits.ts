@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { categories, habitCompletions, habits } from "@/db/schema";
+import { habitCompletions, habits } from "@/db/schema";
 import { getDay } from "date-fns";
 import { eq, or, sql } from "drizzle-orm";
 
@@ -14,7 +14,6 @@ export const getAllHabits = async () => {
 
 export const createHabit = async (
   name: string,
-  categoryId: number,
   isDaily: number,
   description?: string,
   daysOfWeek?: string,
@@ -24,7 +23,6 @@ export const createHabit = async (
       name,
       description,
       daysOfWeek: isDaily === 1 ? null : daysOfWeek,
-      categoryId,
       isDaily,
     });
   } catch (error) {
@@ -42,11 +40,9 @@ export const getTodayHabits = async () => {
         name: habits.name,
         isDaily: habits.isDaily,
         description: habits.description,
-        category: categories.name,
         isCompletedToday: habitCompletions.completed,
       })
       .from(habits)
-      .leftJoin(categories, eq(categories.id, habits.categoryId))
       .leftJoin(habitCompletions, eq(habitCompletions.habitId, habits.id))
       .where(
         or(
@@ -74,14 +70,13 @@ export const updateHabit = async ({
   name,
   description,
   daysOfWeek,
-  categoryId,
   isDaily,
 }: typeof habits.$inferInsert) => {
   try {
     if (id) {
       await db
         .update(habits)
-        .set({ name, description, daysOfWeek, categoryId, isDaily })
+        .set({ name, description, daysOfWeek, isDaily })
         .where(eq(habits.id, id));
     }
   } catch (error) {
@@ -91,7 +86,7 @@ export const updateHabit = async ({
 
 export const completeHabit = async (id: number) => {
   try {
-    await db.insert(habitCompletions).values({
+    const someData = await db.insert(habitCompletions).values({
       habitId: id,
       completed: 1,
       createdAt: new Date(),
