@@ -6,7 +6,7 @@ A simple no BS and no adverts app to track your habits.
 
 - Add new habits
 - Mark habits as completed
-- Create Categories
+- Statistics coming soon
 - Other features coming soon
 
 ## Screenshots
@@ -20,7 +20,7 @@ A simple no BS and no adverts app to track your habits.
 - React Native
 - Expo
 - React Navigation
-- React Query
+- Legend State
 - Drizzle ORM
 - Expo SQLite
 
@@ -36,4 +36,4 @@ No license whatsoever. Do whatever you want.
 No data is being uploaded anywhere.
 No data is being downloaded anywhere.
 No IOS builds are also being made. Just Android builds.
-Any sort of help offered is welcomed.
+Any sort of help/criticism offered is always welcomed.
